@@ -11,12 +11,9 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
-#include <stdio.h>
 #include <thread>
-#include <ctime>
 #include <chrono>
 #include <iostream>
-#include "PingTest.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -73,6 +70,7 @@ int client(PCSTR ipAddr, int n) {
     }
     cout << "Client: Socket successfully created" << endl;
 
+    freeaddrinfo(result);
     int recvbuflen = DEFAULT_BUFLEN;
 
     const char* sendbuf = "ping";
@@ -102,8 +100,8 @@ int client(PCSTR ipAddr, int n) {
         // End Time
         chrono::high_resolution_clock::time_point endTime = chrono::high_resolution_clock::now();
         chrono::duration<double, std::milli> timeSpan = endTime - startTime;
-        cout << "Client: Recieved reply from " << ipAddr << " in " << timeSpan.count() * 100 << "ms" << endl;
-        avgTime += timeSpan.count() * 100;
+        cout << "Client: Recieved reply from " << ipAddr << " in " << timeSpan.count()  << "ms" << endl;
+        avgTime += timeSpan.count();
     }
     // Average Time
     avgTime /= n;
