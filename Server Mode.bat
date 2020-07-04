@@ -1,0 +1,1 @@
+PingTest.exe server 6
